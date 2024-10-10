@@ -68,7 +68,8 @@
         background-color: skyblue;
     }
     button{
-        color:blue
-    }s
+        color:blue;
+        font-family:Times;
+    }
     
     input[type=number] {text-align: right;}
