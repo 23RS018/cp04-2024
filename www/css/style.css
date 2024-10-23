@@ -38,6 +38,7 @@
     }
     #time::after{
         content:"(秒)";
+        display:none;
     }
     
     #mycanvas {
