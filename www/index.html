@@ -40,11 +40,11 @@
             timer();
         },500);
     });  
-    
+
+
     $(function() { 
         $('#btnA').click(function(e) {
             btnAClick(e);
-            $('body').css('background-image', 'url("ramen.jpg")');
             
         });
 
@@ -54,8 +54,12 @@
 
         $('#btnC').click(function(e) {
             btnCClick(e);
-        });
         init();
+        });
+    
+        $('#btnD').click(function(e) {
+            btnDClick(e);
+        });
     });
 
     function rgbToColor(r,g,b){
@@ -141,11 +145,14 @@
     var period = 180; // 3分（180秒）に設定
     var rest = 0;
     var etime = 0;
+    var pt=0;
+    var bool_btnD = false;
 
     function init(){
         $('#btnA').prop('disabled', false);
         $('#btnB').prop('disabled', false);
         $('#btnC').prop('disabled', false);
+        $('#btnD').prop('disabled', false);
         $("#minute").val(3);
         $("#second").val(0);
     }
@@ -156,22 +163,40 @@
         audio.play();
     }
 
-    function btnAClick(e){
-        active=true;
-        startTime=new Date();
+    function btnAClick(e) {
+        active = true;
+        startTime = new Date();
+        $("#time").show();
+        $("#remain").show();
+        $("#mycanvas").show();
     }
 
     function btnBClick(e){
         active=false;
     }
-
-    function btnCClick(e){
-        active=false;
-        period=60*parseInt($("#minute").val())+parseInt($("#second").val());
-        $("#time").html("経過時間：０");
-        $("#remain").html("残り時間："+period);
+    function btnCClick(e) {
+        active = false;
+        period = 60 * parseInt($("#minute").val()) + parseInt($("#second").val());
+        $("#time").html("経過時間：０").hide();
+        $("#remain").html("残り時間：" + period).hide();
+        $("#mycanvas").hide();
+        $('body').css('background-image', 'url("ramen.jpg")');
+        $('#done').html("完成！").hide();
         alarm();
     }
+
+function btnDClick(e){
+    if(bool_btnD==false){
+        active = false;
+        pausedTime = etime;
+        bool_btnD=true;
+    } else {
+        active = true;
+        startTime = new Date() - pausedTime * 1000;
+        pausedTime = 0;
+        bool_btnD=false;
+    }
+}
 
     function timer(){  
         if (active) {  
@@ -211,6 +236,7 @@
   <button id="btnA">Start</button>
   <button id="btnB">Stop</button>
   <button id="btnC">Set</button>
+  <button id="btnD">pause</button>
 
   <input type="number" id="minute" value=3>
   <input type="number" id="second" value=0>
